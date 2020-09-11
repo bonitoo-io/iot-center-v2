@@ -1,0 +1,24 @@
+version: "3"
+services:
+
+  influxdb_v2:
+    image: quay.io/influxdb/influxdb:2.0.0-beta
+    ports:
+      - "9999:9999"
+    environment:
+      - INFLUXD_HTTP_BIND_ADDRESS=:9999
+    command: influxd --reporting-disabled
+
+  iot_center:
+    image: node:12
+    ports:
+      - "5000:5000"
+    environment:
+      - INFLUX_URL=http://influxdb_v2:9999
+    volumes:
+      - $PWD/app:/app
+      - $PWD/scripts:/scripts
+    working_dir: /app
+    command: /scripts/run.sh
+    depends_on:
+      - influxdb_v2

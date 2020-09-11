@@ -10,6 +10,7 @@
   "scripts": {
     "build": "cd ui && yarn build",
     "start": "cd server && yarn start",
+    "test": "cd ui && yarn test",
     "dev": "concurrently \"yarn --cwd server dev\" \"yarn --cwd ui start\""
   },
   "devDependencies": {

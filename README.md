@@ -23,6 +23,13 @@ yarn start
 open http://localhost:5000
 ```
 
+or
+
+```
+docker-compose up
+open http://localhost:5000
+```
+
 ### Develop and Play with IoT Center Application (hot-swap enabled)
 
 ```
