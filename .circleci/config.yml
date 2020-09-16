@@ -39,8 +39,28 @@ jobs:
           command: |
             cd app/server
             yarn test
+  client_python:
+    docker:
+      - image: circleci/python:3.8-buster
+    working_directory:
+    steps:
+      - checkout
+      - run:
+          name: Checks style consistency across sources.
+          working_directory: client_python
+          command: |
+            pip install flake8 --user
+            flake8 client_python.py --max-line-length 120
+      - run:
+          name: Checks compliance with Python docstring convention.
+          working_directory: client_python
+          command: |
+            pip install pydocstyle --user
+            pydocstyle client_python.py
+
 workflows:
   build:
     jobs:
       - tests:
           version: "12"
+      - client_python
