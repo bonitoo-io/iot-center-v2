@@ -31,6 +31,10 @@ python client_python.py
 The `client_python.py` is also able to measure temperature, atmospheric pressure and humidity from `bme280` sensor.
 Just install `bmp_sensors` package by `pip install bmp_sensors` and client will be produces measured `Temperature`, `Humidity` and `Pressure`.
 
+### geo
+
+The geo data are provide by: https://freegeoip.app/json/.
+
 ### Measurement Schema
 
 - environment
