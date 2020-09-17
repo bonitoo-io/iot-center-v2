@@ -26,6 +26,33 @@ export IOT_DEVICE_ID=my-id
 python client_python.py 
 ```
 
+### bme280
+
+The `client_python.py` is also able to measure temperature, atmospheric pressure and humidity from `bme280` sensor.
+Just install `bmp_sensors` package by `pip install bmp_sensors` and client will be produces measured `Temperature`, `Humidity` and `Pressure`.
+
+### Measurement Schema
+
+- environment
+    - Tags
+        - clientId
+        - device
+        - sensor
+    - Fields
+        - Temperature
+        - Humidity
+        - Pressure
+        - CO2
+        - TVOC
+        - Lat
+        - Lon
+
+#### Example Output:
+
+```
+environment,clientId=my-id,device=raspberrypi,sensor=bme280 CO2=1337i,Humidity=62.36,Lat=50.126144,Lon=14.504621,Pressure=983.72,TVOC=28425i,Temperature=10.21 1600338450566582016
+```
+
 ## License
 
 The project is under the [MIT License](https://opensource.org/licenses/MIT).

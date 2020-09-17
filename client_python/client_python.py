@@ -10,10 +10,54 @@ from typing import Optional
 import urllib3
 from influxdb_client import InfluxDBClient, WriteApi, Point, WriteOptions
 
+
+class Sensor:
+    """Sensor to provide information about Temperature, Humidity, Pressure, ..."""
+    def __init__(self):
+        """Initialize bme280 sensor."""
+        try:
+            import bmp_sensors as Sensors
+            self._bme280 = Sensors.BME280(1, False)
+        except ModuleNotFoundError:
+            self._bme280 = None
+        pass
+
+    def temperature(self) -> float:
+        """
+        Get temperature from bme280 or default value 10.21.
+
+        :return: Returns temperature as a :class:`float` object
+        """
+        if self._bme280:
+            return self._bme280.MeasureTemperature()
+        return 10.21
+
+    def humidity(self) -> float:
+        """
+        Get humidity from bme280 or default value 62.36.
+
+        :return: Returns humidity as a :class:`float` object
+        """
+        if self._bme280:
+            return self._bme280.MeasureHumidity()
+        return 62.36
+
+    def pressure(self) -> float:
+        """
+        Get pressure from bme280 or default value 983.72.
+
+        :return: Returns pressure as a :class:`float` object
+        """
+        if self._bme280:
+            return self._bme280.MeasurePressure()
+        return 983.72
+
+
 """
 Global variables:
 """
 http = urllib3.PoolManager()
+sensor = Sensor()
 influxdb_client = None  # type: Optional[InfluxDBClient]
 write_api = None  # type: Optional[WriteApi]
 config = None  # type: Optional[dict]
@@ -70,9 +114,9 @@ def write() -> None:
         .tag("clientId", config['id']) \
         .tag("device", "raspberrypi") \
         .tag("sensor", "bme280") \
-        .field("Temperature", 10.21) \
-        .field("Humidity", 62.36) \
-        .field("Pressure", 983.72) \
+        .field("Temperature", sensor.temperature()) \
+        .field("Humidity", sensor.humidity()) \
+        .field("Pressure", sensor.pressure()) \
         .field("CO2", 1337) \
         .field("TVOC", 28425) \
         .field("Lat", 50.126144) \
