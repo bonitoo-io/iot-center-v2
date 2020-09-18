@@ -28,5 +28,8 @@ WORKDIR /home/node/app
 COPY --from=BUILD_IMAGE /home/node/app .
 RUN yarn install --frozen-lockfile --production=true
 
+RUN yarn autoclean --init
+RUN yarn autoclean --force
+
 EXPOSE 5000
 CMD [ "yarn", "start" ]
