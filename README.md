@@ -42,6 +42,8 @@ docker run \
   --name iot-center \
   --detach \
   --env INFLUX_URL=http://10.100.10.100:9999 \
+  --env INFLUX_TOKEN=my-token \
+  --env INFLUX_ORG=my-org \
   --publish 5000:5000 \
   docker.pkg.github.com/bonitoo-io/iot-center-v2/iot-center:nightly
 ```
