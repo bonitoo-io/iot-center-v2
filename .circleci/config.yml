@@ -72,10 +72,12 @@ jobs:
             fi
       - checkout
       - run:
-          name: Build the application image
+          name: Build and push Docker image
           command: |
             cd app/
-            docker build -t bonitoo/iot-center:nightly .
+            echo $GITHUB_TOKEN | docker login https://docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+            docker build -t docker.pkg.github.com/bonitoo-io/iot-center-v2/iot-center:nightly .
+            docker push docker.pkg.github.com/bonitoo-io/iot-center-v2/iot-center:nightly
 
 workflows:
   build:

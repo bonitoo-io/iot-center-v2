@@ -36,14 +36,14 @@ open http://localhost:5000
 Docker images are available on GitHub Container Registry with `nightly` tag:
 
 ```
-docker pull ghcr.io/bonitoo/iot-center:nightly
+docker.pkg.github.com/bonitoo-io/iot-center-v2/iot-center:nightly
 
 docker run \
   --name iot-center \
   --detach \
   --env INFLUX_URL=http://10.100.10.100:9999 \
   --publish 5000:5000 \
-  ghcr.io/bonitoo/iot-center:nightly
+  docker.pkg.github.com/bonitoo-io/iot-center-v2/iot-center:nightly
 ```
 
 ### Develop and Play with IoT Center Application (hot-swap enabled)
