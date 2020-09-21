@@ -16,7 +16,6 @@ RUN yarn build
 #   - full list of targets: https://github.com/nexe/nexe/releases
 RUN npm i nexe -g
 RUN nexe -t alpine-x86-12.10.0 -o server.bin -i server
-RUN ls -ltrh
 
 #
 # Runtime image
