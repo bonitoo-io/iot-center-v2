@@ -36,7 +36,7 @@ open http://localhost:5000
 Docker images are available on [GitHub Packages](https://github.com/bonitoo-io/iot-center-v2/packages) with `nightly` tag:
 
 ```
-docker.pkg.github.com/bonitoo-io/iot-center-v2/iot-center:nightly
+docker pull docker.pkg.github.com/bonitoo-io/iot-center-v2/iot-center:nightly
 
 docker run \
   --name iot-center \
