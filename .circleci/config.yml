@@ -39,7 +39,7 @@ jobs:
           command: |
             cd app/server
             yarn test
-  client_python:
+  client-python:
     docker:
       - image: circleci/python:3.8-buster
     working_directory:
@@ -82,11 +82,11 @@ workflows:
     jobs:
       - app:
           node_version: "12"
-      - client_python
+      - client-python
       - release-nightly:
           requires:
-            - tests
-            - client_python
+            - app
+            - client-python
 #          filters:
 #            branches:
 #              only: master
