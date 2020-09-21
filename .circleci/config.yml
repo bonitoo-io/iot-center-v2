@@ -89,6 +89,6 @@ workflows:
           requires:
             - app
             - client-python
-#          filters:
-#            branches:
-#              only: master
+          filters:
+            branches:
+              only: master
