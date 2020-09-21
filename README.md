@@ -15,6 +15,7 @@ ToDo https://gitlab.com/bonitoo-io/influxdata/-/blob/master/iot-center/Technical
 
 ### Run IoT Center Application
 
+#### From Source
 ```
 cd app
 yarn install
@@ -28,6 +29,21 @@ or
 ```
 docker-compose up
 open http://localhost:5000
+```
+
+#### Docker
+
+Docker images are available on GitHub Container Registry with `nightly` tag:
+
+```
+docker pull ghcr.io/bonitoo/iot-center:nightly
+
+docker run \
+  --name iot-center \
+  --detach \
+  --env INFLUX_URL=http://10.100.10.100:9999 \
+  --publish 5000:5000 \
+  ghcr.io/bonitoo/iot-center:nightly
 ```
 
 ### Develop and Play with IoT Center Application (hot-swap enabled)

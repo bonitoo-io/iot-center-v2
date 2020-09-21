@@ -57,6 +57,26 @@ jobs:
           command: |
             pip install pydocstyle --user
             pydocstyle client_python.py
+  release-nightly:
+    docker:
+      - image: docker:19
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Early return if this build is from a forked repository
+          command: |
+            if [[ $CIRCLE_PROJECT_USERNAME != "bonitoo-io" ]]; then
+              echo "Nothing to do for forked repositories, so marking this step successful"
+              circleci step halt
+            fi
+      - checkout
+      - run:
+          name: Build the application image
+          command: |
+            cd app/
+            docker build -t bonitoo/iot-center:nightly .
 
 workflows:
   build:
@@ -64,3 +84,10 @@ workflows:
       - app:
           node_version: "12"
       - client_python
+      - release-nightly:
+          requires:
+            - tests
+            - client_python
+#          filters:
+#            branches:
+#              only: master
