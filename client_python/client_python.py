@@ -108,7 +108,7 @@ def configure() -> None:
 
     # Check freshness of configuration
     if config_received and (datetime.utcnow() - config_received).total_seconds() < config['configuration_refresh']:
-        pass
+        return
 
     iot_center_url = os.getenv("IOT_CENTER_URL", "http://localhost:5000")
     iot_device_id = os.getenv("IOT_DEVICE_ID")
