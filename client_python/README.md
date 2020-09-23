@@ -46,15 +46,13 @@ The geo data are provide by: https://freegeoip.app/json/.
         - Temperature
         - Humidity
         - Pressure
-        - CO2
-        - TVOC
         - Lat
         - Lon
 
 #### Example Output:
 
 ```
-environment,clientId=my-id,device=raspberrypi,sensor=bme280 CO2=1337i,Humidity=62.36,Lat=50.126144,Lon=14.504621,Pressure=983.72,TVOC=28425i,Temperature=10.21 1600338450566582016
+environment,clientId=my-id,device=raspberrypi,sensor=bme280 Humidity=62.36,Lat=50.126144,Lon=14.504621,Pressure=983.72,Temperature=10.21 1600338450566582016
 ```
 
 ## License

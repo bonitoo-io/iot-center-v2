@@ -22,35 +22,22 @@ class Sensor:
         except ModuleNotFoundError:
             self._bme280 = None
 
-    def temperature(self) -> float:
+    def measure(self):
         """
-        Get temperature from bme280 or default value 10.21.
+        Get measure from bme280 or default values.
 
-        :return: Returns temperature as a :class:`float` object
+        :return: Returns object with properties: temperature, pressure and humidity.
         """
         if self._bme280:
-            return self._bme280.MeasureTemperature()
-        return 10.21
+            import bmp_sensors as Sensors
+            self._bme280.SetMode(Sensors.BME280_Mode.FORCED)
+            return self._bme280.Measure()
 
-    def humidity(self) -> float:
-        """
-        Get humidity from bme280 or default value 62.36.
-
-        :return: Returns humidity as a :class:`float` object
-        """
-        if self._bme280:
-            return self._bme280.MeasureHumidity()
-        return 62.36
-
-    def pressure(self) -> float:
-        """
-        Get pressure from bme280 or default value 983.72.
-
-        :return: Returns pressure as a :class:`float` object
-        """
-        if self._bme280:
-            return self._bme280.MeasurePressure()
-        return 983.72
+        obj = lambda: None  # noqa: E731
+        obj.temperature = 10.21
+        obj.pressure = 983.72
+        obj.humidity = 62.36
+        return obj
 
     def geo(self):
         """
@@ -130,15 +117,14 @@ def configure() -> None:
 def write() -> None:
     """Write point into InfluxDB."""
     geo = sensor.geo()
+    measure = sensor.measure()
     point = Point("environment") \
         .tag("clientId", config['id']) \
         .tag("device", "raspberrypi") \
         .tag("sensor", "bme280") \
-        .field("Temperature", sensor.temperature()) \
-        .field("Humidity", sensor.humidity()) \
-        .field("Pressure", sensor.pressure()) \
-        .field("CO2", 1337) \
-        .field("TVOC", 28425) \
+        .field("Temperature", measure.temperature) \
+        .field("Humidity", measure.humidity) \
+        .field("Pressure", measure.pressure) \
         .field("Lat", geo['latitude']) \
         .field("Lon", geo['longitude']) \
         .time(datetime.utcnow())
