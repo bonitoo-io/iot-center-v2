@@ -59,10 +59,11 @@ jobs:
             pydocstyle client_python.py
   release-nightly:
     docker:
-      - image: docker:19
+      - image: circleci/buildpack-deps:stretch
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 19.03.13
       - run:
           name: Early return if this build is from a forked repository
           command: |
@@ -70,7 +71,6 @@ jobs:
               echo "Nothing to do for forked repositories, so marking this step successful"
               circleci step halt
             fi
-      - checkout
       - run:
           name: Build and push Docker image
           command: |
