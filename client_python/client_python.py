@@ -121,7 +121,9 @@ def write() -> None:
     point = Point("environment") \
         .tag("clientId", config['id']) \
         .tag("device", "raspberrypi") \
-        .tag("sensor", "bme280") \
+        .tag("TemperatureSensor", "bme280") \
+        .tag("HumiditySensor", "bme280") \
+        .tag("PressureSensor", "bme280") \
         .field("Temperature", measure.temperature) \
         .field("Humidity", measure.humidity) \
         .field("Pressure", measure.pressure) \
