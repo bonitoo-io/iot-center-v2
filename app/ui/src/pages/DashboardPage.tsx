@@ -33,6 +33,9 @@ import {flux, fluxDuration, InfluxDB} from '@influxdata/influxdb-client'
 import {queryTable} from '../util/queryTable'
 import {VIRTUAL_DEVICE} from '../App'
 
+import {MapContainer, TileLayer} from 'react-leaflet'
+import AntPathWrapper from '../util/antPathWrapper'
+
 interface DeviceConfig {
   influx_url: string
   influx_org: string
@@ -81,7 +84,7 @@ const fetchDeviceMeasurements = async (
   from(bucket: ${bucket})
     |> range(start: ${fluxDuration(timeStart)})
     |> filter(fn: (r) => r._measurement == "environment")
-    |> filter(fn: (r) => r["_field"] == "Temperature" or r["_field"] == "TVOC" or r["_field"] == "Pressure" or r["_field"] == "Humidity" or r["_field"] == "CO2")
+    |> filter(fn: (r) => r["_field"] == "Temperature" or r["_field"] == "TVOC" or r["_field"] == "Pressure" or r["_field"] == "Humidity" or r["_field"] == "CO2" or r["_field"] == "Lat" or r["_field"] == "Lon")
     |> filter(fn: (r) => r.clientId == ${id})
     |> v1.fieldsAsCols()`
   )
@@ -392,6 +395,63 @@ const DashboardPage: FunctionComponent<
     </>
   ) : undefined
 
+  const geo =
+    measurementsTable && measurementsTable?.length
+      ? (() => {
+          const latCol = measurementsTable.getColumn(
+            'Lat',
+            'number'
+          ) as number[]
+          const lonCol = measurementsTable.getColumn(
+            'Lon',
+            'number'
+          ) as number[]
+
+          const track: [number, number][] =
+            !lonCol || !latCol
+              ? []
+              : latCol.map((lat: number, i: number) => {
+                  const lon = lonCol[i]
+                  return [lat, lon] as [number, number]
+                })
+
+          // Made from basic react-leaflet example https://react-leaflet.js.org/docs/start-setup
+          return (
+            <>
+              <Row>
+                <Col sm={24}>
+                  <MapContainer
+                    style={{width: '100%', height: '500px'}}
+                    center={track[track.length - 1]}
+                    zoom={6}
+                    scrollWheelZoom={false}
+                  >
+                    <TileLayer
+                      attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <AntPathWrapper
+                      positions={track}
+                      options={{
+                        delay: 400,
+                        dashArray: [10, 20],
+                        weight: 5,
+                        color: '#0000FF',
+                        pulseColor: '#FFFFFF',
+                        paused: false,
+                        reverse: false,
+                        hardwareAccelerated: true,
+                      }}
+                    />
+                  </MapContainer>
+                  <Divider />
+                </Col>
+              </Row>
+            </>
+          )
+        })()
+      : undefined
+
   const renderPlot = (
     lineDefinition: Partial<LineLayerConfig> | undefined,
     table: GiraffeTable,
@@ -550,6 +610,7 @@ const DashboardPage: FunctionComponent<
       {deviceData?.measurementsTable?.length ? (
         <>
           {gauges}
+          {geo}
           {plots}
         </>
       ) : (
