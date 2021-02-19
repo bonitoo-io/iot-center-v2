@@ -398,55 +398,28 @@ const DashboardPage: FunctionComponent<
   const geo =
     measurementsTable && measurementsTable?.length
       ? (() => {
-          const latCol = measurementsTable.getColumn(
-            'Lat',
-            'number'
-          ) as number[]
-          const lonCol = measurementsTable.getColumn(
-            'Lon',
-            'number'
-          ) as number[]
+          const latCol = measurementsTable.getColumn('Lat', 'number')
+          const lonCol = measurementsTable.getColumn('Lon', 'number')
 
-          const track: [number, number][] =
-            !lonCol || !latCol
-              ? []
-              : latCol.map((lat: number, i: number) => {
-                  const lon = lonCol[i]
-                  return [lat, lon] as [number, number]
-                })
+          if (!lonCol || !latCol) return undefined
+
+          const track = zip(latCol as number[], lonCol as number[])
 
           // Made from basic react-leaflet example https://react-leaflet.js.org/docs/start-setup
           return (
             <>
-              <Row>
-                <Col sm={24}>
-                  <MapContainer
-                    style={{width: '100%', height: '500px'}}
-                    center={track[track.length - 1]}
-                    zoom={6}
-                    scrollWheelZoom={false}
-                  >
-                    <TileLayer
-                      attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                    <AntPathWrapper
-                      positions={track}
-                      options={{
-                        delay: 400,
-                        dashArray: [10, 20],
-                        weight: 5,
-                        color: '#0000FF',
-                        pulseColor: '#FFFFFF',
-                        paused: false,
-                        reverse: false,
-                        hardwareAccelerated: true,
-                      }}
-                    />
-                  </MapContainer>
-                  <Divider />
-                </Col>
-              </Row>
+              <MapContainer
+                style={{width: '100%', height: '500px'}}
+                center={last(track)}
+                zoom={6}
+              >
+                <TileLayer
+                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <AntPathWrapper positions={track} />
+              </MapContainer>
+              <Divider />
             </>
           )
         })()
