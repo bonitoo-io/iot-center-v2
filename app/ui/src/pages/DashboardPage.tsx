@@ -398,19 +398,25 @@ const DashboardPage: FunctionComponent<
   const geo =
     measurementsTable && measurementsTable?.length
       ? (() => {
-          const latCol = measurementsTable.getColumn('Lat', 'number')
-          const lonCol = measurementsTable.getColumn('Lon', 'number')
-
+          const latCol = measurementsTable.getColumn(
+            'Lat',
+            'number'
+          ) as number[]
+          const lonCol = measurementsTable.getColumn(
+            'Lon',
+            'number'
+          ) as number[]
+          const last = <T,>(arr: T[]) => arr[arr.length - 1]
           if (!lonCol || !latCol) return undefined
 
-          const track = zip(latCol as number[], lonCol as number[])
+          const track = latCol.map<[number, number]>((x, i) => [x, lonCol[i]])
 
           // Made from basic react-leaflet example https://react-leaflet.js.org/docs/start-setup
           return (
             <>
               <MapContainer
                 style={{width: '100%', height: '500px'}}
-                center={last(track)}
+                center={track.length ? track[track.length - 1] : undefined}
                 zoom={6}
               >
                 <TileLayer
