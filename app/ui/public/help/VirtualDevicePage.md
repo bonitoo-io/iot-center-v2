@@ -11,4 +11,4 @@ The “device” is a piece of code that runs in the browser.
 It uses the [influxdb-client-js] library.
 It gets the configuration of how to communicate with InfluxDB (URL, organization, bucket, token) from IoT center.
 
-For more, see the [*InfluxDB IoT dev guide*](https://influxdata.github.io/iot-dev-guide/pages/virtual-device.html).
+For more, see the [_InfluxDB IoT dev guide_](https://influxdata.github.io/iot-dev-guide/ui/virtual-device.html).
