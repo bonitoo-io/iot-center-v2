@@ -4,6 +4,7 @@ import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 
 interface Props {
   source: string
+  linkTransformer: (uri: string) => string
 }
 const renderers: {[nodeType: string]: ElementType} = {
   code: ({language, value}) => {
@@ -11,8 +12,14 @@ const renderers: {[nodeType: string]: ElementType} = {
   },
 }
 
-const Markdown: FunctionComponent<Props> = ({source}) => {
-  return <ReactMarkdown source={source} renderers={renderers} />
+const Markdown: FunctionComponent<Props> = ({source, linkTransformer}) => {
+  return (
+    <ReactMarkdown
+      source={source}
+      renderers={renderers}
+      transformLinkUri={linkTransformer}
+    />
+  )
 }
 
 export default Markdown

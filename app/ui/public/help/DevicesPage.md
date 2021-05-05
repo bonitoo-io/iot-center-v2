@@ -28,4 +28,4 @@ return await authorizationsAPI.postAuthorizations({
 })
 ```
 
-For more, see the [_InfluxDB IoT dev guide_](https://influxdata.github.io/iot-dev-guide/ui/device-registration.html).
+For more, see the [_InfluxDB IoT dev guide_](__DEV_GUIDE__/ui/device-registration.html).
