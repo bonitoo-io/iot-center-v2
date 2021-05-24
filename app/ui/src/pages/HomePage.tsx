@@ -1,6 +1,7 @@
 import React, {FunctionComponent, useEffect, useState} from 'react'
 import Markdown from '../util/Markdown'
 import PageContent from './PageContent'
+import {helpLinkTransformer} from '../util/helpText'
 
 const Home: FunctionComponent = () => {
   const [helpText, setHelpText] = useState('')
@@ -20,7 +21,9 @@ const Home: FunctionComponent = () => {
 
   return (
     <PageContent title="">
-      {helpText ? <Markdown source={helpText} /> : undefined}
+      {helpText ? (
+        <Markdown source={helpText} linkTransformer={helpLinkTransformer} />
+      ) : undefined}
     </PageContent>
   )
 }

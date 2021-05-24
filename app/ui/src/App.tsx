@@ -19,6 +19,7 @@ import {
   AreaChartOutlined,
 } from '@ant-design/icons'
 
+import {helpLinkTransformer} from './util/helpText'
 import HomePage from './pages/HomePage'
 import DevicesPage from './pages/DevicesPage'
 import DevicePage from './pages/DevicePage'
@@ -28,6 +29,7 @@ import DashboardPage from './pages/DashboardPage'
 export const VIRTUAL_DEVICE = 'virtual_device'
 
 const {Sider} = Layout
+
 const PAGE_HELP: Array<{
   file: string
   matcher: string | RouteProps | string[]
@@ -179,7 +181,10 @@ const App: FunctionComponent<RouteComponentProps> = (props) => {
             breakpoint="sm"
           >
             <div style={{paddingLeft: 10, paddingRight: 10}}>
-              <Markdown source={helpText && !helpCollapsed ? helpText : ''} />
+              <Markdown
+                source={helpText && !helpCollapsed ? helpText : ''}
+                linkTransformer={helpLinkTransformer}
+              />
             </div>
           </Sider>
         ) : undefined}
