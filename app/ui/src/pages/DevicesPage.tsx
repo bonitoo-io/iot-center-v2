@@ -12,16 +12,12 @@ import {
 } from 'antd'
 import {Link} from 'react-router-dom'
 import {ColumnsType} from 'antd/lib/table'
-import {
-  AreaChartOutlined,
-  DeleteFilled,
-  ExclamationCircleFilled,
-  SettingFilled,
-} from '@ant-design/icons'
+import {ExclamationCircleFilled} from '@ant-design/icons'
 import {flux, InfluxDB} from '@influxdata/influxdb-client'
 import {queryTable} from '../util/queryTable'
 import {timeFormatter} from '@influxdata/giraffe'
 import {VIRTUAL_DEVICE} from '../App'
+import {IconDashboard, IconDelete, IconSettings} from '../styles/icons'
 
 export interface DeviceInfo {
   key: string
@@ -193,8 +189,6 @@ const DevicesPage: FunctionComponent<Props> = ({helpCollapsed}) => {
       render: (deviceId: string) => (
         <Link to={`/devices/${deviceId}`}>{deviceId}</Link>
       ),
-      sorter: (a: DeviceInfo, b: DeviceInfo) =>
-        a.deviceId > b.deviceId ? 1 : -1,
     },
     {
       title: 'Registration Time',
@@ -223,13 +217,15 @@ const DevicesPage: FunctionComponent<Props> = ({helpCollapsed}) => {
         <>
           <Tooltip title="Go to device settings" placement="topRight">
             <Button
-              icon={<SettingFilled />}
+              type="text"
+              icon={<IconSettings />}
               href={`/devices/${device.deviceId}`}
             />
           </Tooltip>
           <Tooltip title="Go to device dashboard" placement="topRight">
             <Button
-              icon={<AreaChartOutlined />}
+              type="text"
+              icon={<IconDashboard />}
               href={`/dashboard/${device.deviceId}`}
             />
           </Tooltip>
@@ -242,7 +238,7 @@ const DevicesPage: FunctionComponent<Props> = ({helpCollapsed}) => {
             cancelText="No"
           >
             <Tooltip title="Remove device" placement="topRight" color="red">
-              <Button type="default" icon={<DeleteFilled />} danger />
+              <Button type="text" icon={<IconDelete />} />
             </Tooltip>
           </Popconfirm>
         </>
@@ -259,7 +255,6 @@ const DevicesPage: FunctionComponent<Props> = ({helpCollapsed}) => {
         <>
           <Tooltip title="Register a new Device">
             <Button
-              type="dashed"
               onClick={() => {
                 let deviceId = ''
                 Modal.confirm({

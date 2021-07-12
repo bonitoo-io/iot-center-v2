@@ -10,20 +10,21 @@ import {
   RouteProps,
 } from 'react-router-dom'
 import Markdown from './util/Markdown'
-import './App.css'
+import './styles/App.less'
 import {Layout, Menu} from 'antd'
-import {
-  HomeOutlined,
-  DoubleRightOutlined,
-  FastForwardOutlined,
-  AreaChartOutlined,
-} from '@ant-design/icons'
 
 import HomePage from './pages/HomePage'
 import DevicesPage from './pages/DevicesPage'
 import DevicePage from './pages/DevicePage'
 import NotFoundPage from './pages/NotFoundPage'
 import DashboardPage from './pages/DashboardPage'
+
+import {
+  IconDashboard,
+  IconDeviceRegistration,
+  IconHome,
+  IconVirtualDevice,
+} from './styles/icons'
 
 export const VIRTUAL_DEVICE = 'virtual_device'
 
@@ -70,7 +71,6 @@ const useHelpCollapsed = (): [boolean, (v: boolean) => void] => {
 }
 
 const App: FunctionComponent<RouteComponentProps> = (props) => {
-  const [menuCollapsed, setMenuCollapsed] = useState(false)
   const [helpCollapsed, setHelpCollapsed] = useHelpCollapsed()
   const [helpText, setHelpText] = useState('')
 
@@ -95,19 +95,7 @@ const App: FunctionComponent<RouteComponentProps> = (props) => {
   return (
     <div className="App">
       <Layout style={{minHeight: '100vh'}}>
-        <Sider
-          collapsible
-          collapsed={menuCollapsed as boolean}
-          onCollapse={() => setMenuCollapsed(!menuCollapsed)}
-        >
-          {/* <Header
-            className="site-layout-background"
-            style={{ padding: "10px" }}
-          >
-            <h1 style={{ color: "rgba(255,255,255,255)" }}>
-              <Link to="/home">IoT&nbsp;Center</Link>
-            </h1>
-          </Header> */}
+        <Sider>
           <Menu
             theme="dark"
             selectedKeys={[
@@ -118,22 +106,21 @@ const App: FunctionComponent<RouteComponentProps> = (props) => {
             ]}
             mode="inline"
           >
-            <Menu.Item key="/home" icon={<HomeOutlined />}>
+            <Menu.Item key="/home" icon={<IconHome />}>
               <NavLink to="/home">Home</NavLink>
             </Menu.Item>
-            <Menu.Item key="/devices" icon={<DoubleRightOutlined />}>
+            <Menu.Item key="/devices" icon={<IconDeviceRegistration />}>
               <NavLink to="/devices">Device Registrations</NavLink>
             </Menu.Item>
             <Menu.Item
               key="/devices/virtual_device"
-              icon={<FastForwardOutlined />}
+              icon={<IconVirtualDevice />}
             >
               <NavLink to="/devices/virtual_device">Virtual Device</NavLink>
             </Menu.Item>
-            <Menu.Item key="/dashboard/:device" icon={<AreaChartOutlined />}>
+            <Menu.Item key="/dashboard/:device" icon={<IconDashboard />}>
               <NavLink to="/dashboard">Dashboard</NavLink>
             </Menu.Item>
-            {}
           </Menu>
         </Sider>
         <Switch>

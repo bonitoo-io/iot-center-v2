@@ -29,8 +29,9 @@ const PageContent: FunctionComponent<PageContentProps> = (props) => {
   return (
     <Layout.Content
       style={{
-        paddingLeft: 24,
-        paddingRight: 24,
+        paddingLeft: 60,
+        paddingRight: 60,
+        paddingTop: 55,
         margin: 0,
         minHeight: 280,
         minWidth: 350,
@@ -40,7 +41,7 @@ const PageContent: FunctionComponent<PageContentProps> = (props) => {
     >
       <PageHeader
         title={props.title}
-        style={{paddingLeft: 0, paddingRight: 0}}
+        style={{paddingLeft: 0, paddingRight: 0, paddingTop: 0}}
         extra={props?.titleExtra}
       />
       {props.message ? (
